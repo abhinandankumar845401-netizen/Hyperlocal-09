@@ -74,30 +74,6 @@ npm install
 
 ---
 
-# 🔑 Environment Variables
-
-Create a `.env` file inside the server folder and add:
-
-```env
-# =============================================================
-# TrustLocal Server — Environment Variables
-# =============================================================
-
-# ── Gemini / Google AI ─────────────────────────────────────
-GEMINI_API_KEY=AIzaSyAMvQtaSat-KvZNH9NbWr5D6gNhwZ4354c
-
-# ── MongoDB ────────────────────────────────────────────────
-MONGO_URI=mongodb://abhinandankumar845401_db_user:9rlJGu0Nv4oK1dcC@ac-haga7qv-shard-00-00.6mxicxy.mongodb.net:27017,ac-haga7qv-shard-00-01.6mxicxy.mongodb.net:27017,ac-haga7qv-shard-00-02.6mxicxy.mongodb.net:27017/?ssl=true&authSource=admin&replicaSet=atlas-814q2g-shard-0&retryWrites=true&w=majority&appName=Cluster0
-
-# ── JWT ────────────────────────────────────────────────────
-JWT_SECRET=trustlocal_super_secret_jwt_key_2024
-
-# ── Server ─────────────────────────────────────────────────
-PORT=5000
-CLIENT_URL=http://localhost:5173
-NODE_ENV=development
-
-```
 
 ---
 
