@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { Request, Response } from 'express';
 
 export const chatWithAi = async (req: Request, res: Response) => {
@@ -19,14 +19,17 @@ You help users find nearby trusted local businesses, answer questions about orde
 Always promote local shopping. Be concise, friendly, and action-oriented (2-4 sentences).
 Context from the user's session: ${context || 'none'}`;
 
-    const genai = new GoogleGenAI({ apiKey });
-    const chat = genai.chats.create({
-      model: 'gemini-2.0-flash',
-      config: { systemInstruction: systemPrompt },
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: systemPrompt 
     });
 
-    const response = await chat.sendMessage({ message });
-    res.status(200).json({ answer: response.text?.trim() ?? 'Sorry, I could not generate an answer right now.' });
+    const result = await model.generateContent(message);
+    const response = await result.response;
+    const answer = response.text().trim();
+
+    res.status(200).json({ answer: answer || 'Sorry, I could not generate an answer right now.' });
   } catch (error: any) {
     console.error('AI controller error:', error.message);
     res.status(500).json({ answer: "I'm having trouble connecting right now. Please try again in a moment." });

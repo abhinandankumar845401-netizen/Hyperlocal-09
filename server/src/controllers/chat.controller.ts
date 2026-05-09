@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -30,32 +30,28 @@ Rules:
 - Keep responses friendly, concise, and under 3 sentences.
 - Always promote local, trusted shopping.`;
 
-    // Try models in order of preference (gemini-flash-latest has quota, 2.0-flash might be exhausted)
-    const modelNames = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash'];
-    let lastError: any = null;
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: systemPrompt 
+    });
 
-    const genai = new GoogleGenAI({ apiKey });
+    // Convert history to Gemini format if needed
+    const chatHistory = (history || []).map((m: any) => ({
+      role: m.role === 'model' ? 'model' : 'user',
+      parts: [{ text: m.text }]
+    }));
 
-    for (const modelName of modelNames) {
-      try {
-        const chat = genai.chats.create({
-          model: modelName,
-          config: { systemInstruction: systemPrompt },
-        });
+    const chat = model.startChat({
+      history: chatHistory,
+    });
 
-        const response = await chat.sendMessage({ message });
-        const reply = response.text?.trim() ?? "I'm here to help! Could you rephrase your question?";
-        console.log(`✅ TrustBot responded via ${modelName}`);
-        return res.status(200).json({ reply });
-      } catch (err: any) {
-        lastError = err;
-        console.log(`⚠️ Model ${modelName} failed: ${err.message}`);
-        if (err.message?.includes('429') || err.message?.includes('quota')) continue;
-        break;
-      }
-    }
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    const reply = response.text().trim();
 
-    throw lastError;
+    console.log(`✅ TrustBot responded via gemini-1.5-flash`);
+    return res.status(200).json({ reply });
   } catch (error: any) {
     console.error('❌ TrustBot Error:', error.message);
     
