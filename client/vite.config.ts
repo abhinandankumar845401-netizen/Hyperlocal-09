@@ -6,17 +6,8 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [
-      // shadcn UI components live in client/@/components/ui
-      {
-        find: /^@\/components\/ui\/(.*)$/,
-        replacement: path.resolve(__dirname, './@/components/ui/$1'),
-      },
-      // Everything else under @/ maps to src/
-      {
-        find: /^@\/(.*)$/,
-        replacement: path.resolve(__dirname, './src/$1'),
-      },
-    ],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
 })
