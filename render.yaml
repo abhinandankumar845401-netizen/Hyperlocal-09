@@ -3,8 +3,8 @@ services:
     name: trustlocal-server
     runtime: node
     rootDir: server
-    buildCommand: npm install && npm run build
-    startCommand: node dist/index.js
+    buildCommand: npm install
+    startCommand: npx tsx src/index.ts
     envVars:
       - key: NODE_ENV
         value: production
