@@ -87,6 +87,11 @@ Rules:
       demoReply += "TrustLocal helps you find verified neighborhood shops. Try asking about 'Grocery' or 'Pharmacy'!";
     }
     
+    // Add debug info if needed
+    if (process.env.NODE_ENV !== 'production' || error.message) {
+      demoReply += ` (Debug: ${error.message})`;
+    }
+    
     return res.status(200).json({ reply: demoReply });
   }
 };
