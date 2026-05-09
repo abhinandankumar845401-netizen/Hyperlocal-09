@@ -12,7 +12,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+
   "dependencies": {
     "@google/genai": "^2.0.1",
     "@google/generative-ai": "^0.24.1",
