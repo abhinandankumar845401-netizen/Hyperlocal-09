@@ -1,4 +1,4 @@
-# HyperLocal_07
+# HyperLocal
 
 A modern hyperlocal platform that connects nearby users, services, businesses, and communities in real time.
 
