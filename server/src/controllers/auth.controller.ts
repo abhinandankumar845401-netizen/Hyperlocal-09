@@ -7,9 +7,11 @@ import { generateToken } from '../utils/jwt';
 export const registerCustomer = async (req: Request, res: Response) => {
   try {
     const { name, email, password, phone, address } = req.body;
+    console.log(`📝 Registration attempt for: ${email}`);
 
     const userExists = await User.findOne({ email });
     if (userExists) {
+      console.log(`⚠️ User already exists: ${email}`);
       return res.status(400).json({ message: 'User already exists' });
     }
 
@@ -36,6 +38,7 @@ export const registerCustomer = async (req: Request, res: Response) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -58,9 +61,11 @@ export const registerCustomer = async (req: Request, res: Response) => {
 export const registerShopkeeper = async (req: Request, res: Response) => {
   try {
     const { name, email, password, phone, shopName, category, address, deliveryRadius } = req.body;
+    console.log(`🏪 Shopkeeper Registration attempt: ${email}`);
 
     const userExists = await User.findOne({ email });
     if (userExists) {
+      console.log(`⚠️ User already exists: ${email}`);
       return res.status(400).json({ message: 'User already exists' });
     }
 
@@ -97,6 +102,7 @@ export const registerShopkeeper = async (req: Request, res: Response) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -137,6 +143,7 @@ export const loginUser = async (req: Request, res: Response) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
