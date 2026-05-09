@@ -36,11 +36,20 @@ Rules:
       systemInstruction: systemPrompt 
     });
 
-    // Convert history to Gemini format if needed
-    const chatHistory = (history || []).map((m: any) => ({
+    // Convert history to Gemini format. 
+    // IMPORTANT: Gemini requires history to start with a 'user' message.
+    let chatHistory = (history || []).map((m: any) => ({
       role: m.role === 'model' ? 'model' : 'user',
       parts: [{ text: m.text }]
     }));
+
+    // Find the first user message index
+    const firstUserIndex = chatHistory.findIndex((m: any) => m.role === 'user');
+    if (firstUserIndex !== -1) {
+      chatHistory = chatHistory.slice(firstUserIndex);
+    } else {
+      chatHistory = []; // No user messages yet
+    }
 
     const chat = model.startChat({
       history: chatHistory,
@@ -54,6 +63,9 @@ Rules:
     return res.status(200).json({ reply });
   } catch (error: any) {
     console.error('❌ TrustBot Error:', error.message);
+    if (error.message?.includes('429') || error.message?.includes('quota')) {
+      console.warn('⚠️ Gemini Quota Exceeded');
+    }
     
     // 🚀 SMART DEMO FALLBACK
     const { shops, message: userMsg } = req.body;
