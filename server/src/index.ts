@@ -53,6 +53,12 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+// Request logger
+app.use((req, _res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path} [Origin: ${req.get('origin')}]`);
+  next();
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/shops', shopRoutes);
