@@ -53,7 +53,7 @@ export default function LandingPage() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="w-full sm:w-auto text-lg h-14 px-8 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 shadow-xl" onClick={() => navigate('/auth')}>
+              <Button size="lg" className="w-full sm:w-auto text-lg h-14 px-8 rounded-full bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 shadow-xl" onClick={() => navigate('/auth')}>
                 Explore Nearby Shops
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
