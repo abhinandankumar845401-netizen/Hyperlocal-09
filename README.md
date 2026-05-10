@@ -142,3 +142,10 @@ Developed by Abhinandan Kumar
 
 GitHub Repository:
 [https://github.com/abhinandankumar845401-netizen/HyperLocal_07](https://github.com/abhinandankumar845401-netizen/HyperLocal_07)
+## 🌐 Live Demo
+
+### Frontend (Vercel)
+🔗 https://hyperlocal-09.vercel.app/
+
+### Backend API (Render)
+🔗 https://hyperlocal-09.onrender.com
